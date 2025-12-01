@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Minecraft — Razer Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070707;
+  --card:#0f1113;
+  --muted:#9aa4a6;
+  --accent:#00ff6a;
+  --accent2:#00d4ff;
+  --danger:#ff4d4d;
+  --glass: rgba(255,255,255,0.04);
+  --glow: 0 6px 28px rgba(0,255,106,0.08);
+  --neon: 0 0 20px rgba(0,255,106,0.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background: linear-gradient(180deg,#030303 0%, #071011 100%);
+  color:#d7e7e4;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(255,255,255,0.02));
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.logo{
+  width:48px;height:48px;border-radius:10px;
+  background:linear-gradient(135deg, rgba(0,255,106,0.16), rgba(0,212,255,0.12));
+  box-shadow: var(--neon);
+  display:flex;align-items:center;justify-content:center;font-weight:800;color:#001;
+  font-size:20px;
+  transform: rotate(-10deg);
+}
+.title{
+  font-size:18px;color:var(--accent);font-weight:700;letter-spacing:0.6px;
+}
+.sub{
+  color:var(--muted); font-size:12px;margin-top:2px;
+}
+.controls{
+  display:flex;gap:10px;align-items:center;
+}
+.btn{
+  background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px 12px;border-radius:10px;color:var(--muted);cursor:pointer;
+}
+.btn.prim{ background: linear-gradient(90deg, rgba(0,255,106,0.06), rgba(0,212,255,0.03)); border:1px solid rgba(0,255,106,0.12); color:var(--accent); box-shadow:var(--glow); }
+.btn.danger{ border:1px solid rgba(255,77,77,0.08); color:var(--danger); }
+
+.main{
+  display:grid;
+  grid-template-columns: 1fr 520px;
+  gap:20px;
+  padding:24px;
+}
+.left{
+  display:flex;flex-direction:column;gap:20px;
+}
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+}
+.status-row{ display:flex;align-items:center;gap:12px;margin-bottom:8px }
+.status-dot { width:12px;height:12px;border-radius:50%;box-shadow:0 0 12px rgba(0,255,106,0.06); }
+.status-online{ background: linear-gradient(90deg,#00ff6a,#00d4ff); }
+.status-off{ background:#ff4d4d; box-shadow:0 0 12px rgba(255,77,77,0.06); }
+
+.row{ display:flex;gap:12px;align-items:center;flex-wrap:wrap; }
+.kv{ color:var(--muted); font-size:13px; }
+.kv .val{ color:#fff; font-weight:600; margin-left:8px }
+
+.console-wrap{
+  height:480px;display:flex;flex-direction:column;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);
+}
+.console-top{ background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.01)); padding:10px 12px; display:flex; justify-content:space-between; align-items:center; }
+.console-body{ flex:1; background:#020202; color:#a9f9c8; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace; font-size:13px; padding:12px; overflow:auto; }
+.console-line{ white-space:pre-wrap; margin:0 0 6px 0; }
+.log-info{ color:#9df5b8; }
+.log-warn{ color:#ffd86b; }
+.log-error{ color:#ff8b8b; font-weight:700; }
+.log-debug{ color:#8bd5ff; }
+
+.input-bar{ display:flex; gap:8px; padding:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)); }
+.input{
+  flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:#fff;
+  font-family:inherit;font-size:14px;
+}
+.send-btn{ padding:10px 14px;border-radius:10px;border: none;background: linear-gradient(90deg,#00ff6a,#00d4ff); color:#001;font-weight:700; cursor:pointer; box-shadow: var(--neon); }
+
+.side-top{ display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px; }
+.grid-tiles{ display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; }
+.tile{ padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)); border:1px solid rgba(255,255,255,0.03); }
+.tile h3{ margin:0;font-size:13px;color:var(--muted); }
+.tile .big{ font-size:18px;color:#fff;font-weight:700;margin-top:6px; }
+
+.charts { display:flex; flex-direction:column; gap:12px; }
+canvas { background: transparent !important; }
+
+/* small responsive */
+@media (max-width:1100px){
+  .main{ grid-template-columns: 1fr; }
+  .console-wrap{ height:420px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="logo">MC</div>
+    <div>
+      <div class="title">BIGFATMODS — Control Panel</div>
+      <div class="sub">Razer Console • Live Admin Controls</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn prim" id="btnStart">Start</button>
+    <button class="btn" id="btnRestart">Restart</button>
+    <button class="btn danger" id="btnStop">Stop</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="left">
+
+    <div class="card">
+      <div class="status-row">
+        <div id="statusDot" class="status-dot status-off"></div>
+        <div>
+          <div id="statusText" style="font-weight:700">Offline</div>
+          <div style="font-size:12px;color:var(--muted)">Server health & status</div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:8px">
+        <div class="kv">MOTD <span class="val" id="motdVal">—</span></div>
+        <div class="kv">Players <span class="val" id="playersVal">0/0</span></div>
+        <div class="kv">Ping <span class="val" id="pingVal">—</span></div>
+      </div>
+
+      <div style="height:12px"></div>
+
+      <div class="charts">
+        <canvas id="cpuChart" height="80"></canvas>
+        <canvas id="ramChart" height="80"></canvas>
+        <canvas id="tpsChart" height="80"></canvas>
+      </div>
+    </div>
+
+    <div class="card console-wrap">
+      <div class="console-top">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div style="font-weight:700">Live Console</div>
+          <div style="font-size:12px;color:var(--muted)">Real-time output</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="font-size:12px;color:var(--muted)">Auto-scroll</div>
+          <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)">
+            <input id="autoScroll" type="checkbox" checked>
+          </label>
+        </div>
+      </div>
+
+      <div id="consoleBody" class="console-body"></div>
+
+      <div class="input-bar">
+        <input id="cmdInput" class="input" placeholder="Type server command (e.g. say Hello, op Player) — use ↑ ↓ for history">
+        <button id="sendCmd" class="send-btn">SEND</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="right">
+    <div class="card">
+      <div class="side-top">
+        <div>
+          <div style="font-size:13px;color:var(--muted)">System</div>
+          <div style="font-weight:700;font-size:18px" id="uptime">—</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:13px;color:var(--muted)">Java</div>
+          <div style="font-weight:700" id="javaVer">—</div>
+        </div>
+      </div>
+
+      <div class="grid-tiles">
+        <div class="tile">
+          <h3>CPU</h3>
+          <div class="big" id="cpuVal">—%</div>
+        </div>
+        <div class="tile">
+          <h3>RAM</h3>
+          <div class="big" id="ramVal">— GB</div>
+        </div>
+        <div class="tile">
+          <h3>Disk</h3>
+          <div class="big" id="diskVal">— GB</div>
+        </div>
+        <div class="tile">
+          <h3>Network (Up)</h3>
+          <div class="big" id="netVal">— MB/s</div>
+        </div>
+      </div>
+
+      <div style="height:12px"></div>
+
+      <div style="font-size:13px;color:var(--muted)">Plugins</div>
+      <ul id="pluginsList" style="margin:8px 0 0 16px;color:var(--muted)"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const API_ROOT = "http://localhost:3000"; // change if hosting elsewhere
+
+/* -------------------- utilities -------------------- */
+function el(id){ return document.getElementById(id); }
+function colorizeLine(line){
+  const l = line.toString();
+  // basic heuristics
+  if (/error|exception|severe|failed/i.test(l)) return `<div class="console-line log-error">${escapeHtml(l)}</div>`;
+  if (/warn|warning/i.test(l)) return `<div class="console-line log-warn">${escapeHtml(l)}</div>`;
+  if (/info|done|joined|left|started|Stopping|Started/i.test(l)) return `<div class="console-line log-info">${escapeHtml(l)}</div>`;
+  return `<div class="console-line log-debug">${escapeHtml(l)}</div>`;
+}
+function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
+
+/* -------------------- console logic -------------------- */
+let lastConsole = ""; // keep last fetched text
+let autoScroll = true;
+el("autoScroll").addEventListener("change", e => autoScroll = e.target.checked);
+
+// command history
+let history = [];
+let historyIndex = -1;
+const cmdInput = el("cmdInput");
+cmdInput.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowUp"){
+    if (history.length === 0) return;
+    historyIndex = Math.max(0, historyIndex - 1);
+    cmdInput.value = history[historyIndex] || "";
+    e.preventDefault();
+  } else if (e.key === "ArrowDown"){
+    historyIndex = Math.min(history.length, historyIndex + 1);
+    cmdInput.value = history[historyIndex] || "";
+    e.preventDefault();
+  } else if (e.key === "Enter"){
+    sendCommand();
+    e.preventDefault();
+  }
+});
+
+// send command
+document.getElementById("sendCmd").addEventListener("click", sendCommand);
+async function sendCommand(){
+  const cmd = cmdInput.value.trim();
+  if (!cmd) return;
+  try {
+    const res = await fetch(API_ROOT + "/command", {
+      method: "POST",
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ command: cmd })
+    });
+    if (!res.ok){
+      const text = await res.text();
+      appendConsoleLine(`[ERROR SENDING] ${text}`, "log-error");
+    } else {
+      // store in history
+      history.push(cmd);
+      historyIndex = history.length;
+      cmdInput.value = "";
+    }
+  } catch (err){
+    appendConsoleLine(`[NETWORK ERROR] ${err.message}`, "log-error");
+  }
+}
+
+// append colored line(s)
+function appendConsoleLine(text, cls){
+  const body = el("consoleBody");
+  if (!text) return;
+  // split by newline to colorize individual lines
+  const parts = text.split(/\r?\n/);
+  parts.forEach(p => { if (p.length){
+    // if cls provided use it, else try heuristics
+    body.insertAdjacentHTML('beforeend', cls ? `<div class="console-line ${cls}">${escapeHtml(p)}</div>` : colorizeLine(p));
+  }});
+  // keep max lines
+  while (body.childElementCount > 2000) body.removeChild(body.firstChild);
+  if (autoScroll) body.scrollTop = body.scrollHeight;
+}
+
+/* -------------------- charts -------------------- */
+const maxPoints = 30;
+function addData(chart, label, data){
+  chart.data.labels.push(label);
+  chart.data.datasets[0].data.push(data);
+  if (chart.data.labels.length > maxPoints){
+    chart.data.labels.shift();
+    chart.data.datasets[0].data.shift();
+  }
+  chart.update();
+}
+
+const cpuChart = new Chart(el("cpuChart"), {
+  type: "line",
+  data: { labels: [], datasets: [{ label: "CPU %", data: [], borderColor: "rgba(0,255,106,0.9)", tension:0.3 }]},
+  options: { responsive:true, animation:false, scales:{ y:{ min:0, max:100 } } }
+});
+const ramChart = new Chart(el("ramChart"), {
+  type: "line",
+  data: { labels: [], datasets: [{ label: "RAM GB", data: [], borderColor: "rgba(0,212,255,0.9)", tension:0.3 }]},
+  options: { responsive:true, animation:false }
+});
+const tpsChart = new Chart(el("tpsChart"), {
+  type: "line",
+  data: { labels: [], datasets: [{ label: "TPS", data: [], borderColor: "rgba(255,165,0,0.95)", tension:0.3 }]},
+  options: { responsive:true, animation:false, scales:{ y:{ min:0, max:20 } } }
+});
+
+/* -------------------- data fetch -------------------- */
+async function loadAll(){
+  await Promise.all([
+    loadStatus(),
+    loadSystem(),
+    loadTPS(),
+    loadConsole(),
+    loadPlugins()
+  ]);
+}
+
+async function loadStatus(){
+  try {
+    const res = await fetch(API_ROOT + "/status");
+    const data = await res.json();
+    if (!data.online){
+      el("statusDot").classList.remove("status-online"); el("statusDot").classList.add("status-off");
+      el("statusText").textContent = "Offline";
+      el("motdVal").textContent = "—";
+      el("playersVal").textContent = "0/0";
+      el("pingVal").textContent = "—";
+      return;
+    }
+    el("statusDot").classList.remove("status-off"); el("statusDot").classList.add("status-online");
+    el("statusText").textContent = "Online";
+    el("motdVal").textContent = data.motd || "—";
+    el("playersVal").textContent = `${data.players}/${data.maxPlayers}`;
+    el("pingVal").textContent = `${data.latency} ms`;
+    el("uptime").textContent = data.uptime || "—";
+    el("javaVer").textContent = data.java || "—";
+  } catch (err){
+    console.warn("status load error", err);
+  }
+}
+
+async function loadSystem(){
+  try {
+    const res = await fetch(API_ROOT + "/system");
+    const data = await res.json();
+    const now = new Date().toLocaleTimeString();
+    addData(cpuChart, now, data.cpuLoad);
+    addData(ramChart, now, data.ramUsed);
+    addData(tpsChart, now, 0); // TPS is separate
+    el("cpuVal").textContent = `${data.cpuLoad}%`;
+    el("ramVal").textContent = `${data.ramUsed} / ${data.ramTotal} GB`;
+    el("diskVal").textContent = `${data.diskUsed} / ${data.diskTotal} GB`;
+    el("netVal").textContent = `${data.netUp}`;
+  } catch (err){
+    console.warn("system load error", err);
+  }
+}
+
+async function loadTPS(){
+  try {
+    const res = await fetch(API_ROOT + "/tps");
+    const data = await res.json();
+    const now = new Date().toLocaleTimeString();
+    addData(tpsChart, now, data.tps);
+  } catch (err){
+    console.warn("tps load error", err);
+  }
+}
+
+let lastConsoleLen = 0;
+async function loadConsole(){
+  try {
+    const res = await fetch(API_ROOT + "/console");
+    const text = await res.text();
+    if (!text) return;
+    if (text.length === lastConsoleLen) return; // nothing new
+    // append only new part
+    const newPart = text.slice(lastConsoleLen);
+    lastConsoleLen = text.length;
+    appendConsoleLine(newPart);
+  } catch (err){
+    console.warn("console load error", err);
+  }
+}
+
+async function loadPlugins(){
+  try {
+    const res = await fetch(API_ROOT + "/plugins");
+    const data = await res.json();
+    const ul = el("pluginsList");
+    ul.innerHTML = "";
+    data.forEach(p => {
+      const li = document.createElement("li");
+      li.textContent = p;
+      ul.appendChild(li);
+    });
+  } catch (err){
+    console.warn("plugins error", err);
+  }
+}
+
+/* -------------------- control buttons -------------------- */
+async function sendControl(action){
+  try {
+    await fetch(API_ROOT + "/control", { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ action })});
+    // wait a bit then refresh status & console
+    setTimeout(loadAll, 800);
+  } catch (err){ console.warn(err); }
+}
+el("btnStart").addEventListener("click", ()=> sendControl("start"));
+el("btnStop").addEventListener("click", ()=> sendControl("stop"));
+el("btnRestart").addEventListener("click", ()=> sendControl("restart"));
+
+/* -------------------- polling -------------------- */
+setInterval(() => {
+  loadStatus();
+  loadSystem();
+  loadTPS();
+  loadConsole();
+  loadPlugins();
+}, 2000);
+
+// initial
+loadAll();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const api = p => fetch(p).then(r => r.json());
+
+let cpuChart, ramChart, tpsChart, netChart;
+
+// ---- Create charts ----
+function makeChart(id, label) {
+    const ctx = document.getElementById(id).getContext("2d");
+    return new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: Array(20).fill(""),
+            datasets: [{
+                label,
+                data: Array(20).fill(0),
+                borderColor: "#00ff6a",
+                borderWidth: 2,
+                tension: 0.3
+            }]
+        },
+        options: {
+            animation: false,
+            scales: { y: { min: 0, max: 100 } },
+            plugins: { legend: { display: false } }
+        }
+    });
+}
+
+function makeNetChart() {
+    const ctx = document.getElementById("netChart").getContext("2d");
+    return new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: Array(20).fill(""),
+            datasets: [
+                {
+                    label: "Upload",
+                    data: Array(20).fill(0),
+                    borderColor: "#00ff6a",
+                    borderWidth: 2,
+                    tension: 0.3
+                },
+                {
+                    label: "Download",
+                    data: Array(20).fill(0),
+                    borderColor: "#00d4ff",
+                    borderWidth: 2,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            animation: false,
+            scales: { y: { min: 0 } }
+        }
+    });
+}
+
+// ---- Update charts ----
+function pushChart(chart, value) {
+    chart.data.datasets[0].data.push(value);
+    chart.data.datasets[0].data.shift();
+    chart.update();
+}
+
+function pushNet(upload, download) {
+    netChart.data.datasets[0].data.push(upload);
+    netChart.data.datasets[0].data.shift();
+
+    netChart.data.datasets[1].data.push(download);
+    netChart.data.datasets[1].data.shift();
+
+    netChart.update();
+}
+
+// ---- Update console ----
+async function refreshConsole() {
+    const txt = await fetch("/console").then(r => r.text());
+    const el = document.getElementById("consoleBody");
+    el.textContent = txt;
+    el.scrollTop = el.scrollHeight;
+}
+
+// ---- Init ----
+window.onload = () => {
+    cpuChart = makeChart("cpuChart", "CPU");
+    ramChart = makeChart("ramChart", "RAM");
+    tpsChart = makeChart("tpsChart", "TPS");
+    netChart = makeNetChart();
+
+    setInterval(async () => {
+        const sys = await api("/system");
+        const tps = await api("/tps");
+
+        pushChart(cpuChart, sys.cpuLoad);
+        pushChart(ramChart, sys.ramUsed);
+        pushChart(tpsChart, tps.tps);
+        pushNet(sys.netUpVal, sys.netDownVal);
+
+        refreshConsole();
+    }, 1000);
+};
+</script>
+</body>
+</html>

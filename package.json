@@ -1,0 +1,14 @@
+{
+  "name": "minecraft-dashboard-api",
+  "version": "1.0.0",
+  "dependencies": {
+    "chart.js": "^4.5.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "minecraft-server-util": "^5.4.4",
+    "rcon-client": "^4.2.5",
+    "systeminformation": "^5.27.11",
+    "tailwindcss": "^4.1.17",
+    "ws": "^8.18.3"
+  }
+}
