@@ -14,11 +14,11 @@ app.use(express.json());
 const PORT = 3000;
 
 // ========== CONFIG ==========
-const SERVER_IP = "bigfatmods-mc.ddns.net";
+const SERVER_IP = "server url or ip";
 const SERVER_PORT = 25565;
-const MINECRAFT_DIR = "C:\\Users\\User\\Desktop\\BIGFATMODS Minecraft Server - Copy\\Spigot";
-const PLUGIN_DIR = path.join(MINECRAFT_DIR, "plugins");
-const SERVER_JAR = path.join(MINECRAFT_DIR, "spigot-1.21.10.jar");
+const MINECRAFT_DIR = "minecraft server directory from main server"; // change to your minecraft server ip/url
+const PLUGIN_DIR = path.join(MINECRAFT_DIR, "plugins"); // leave plugins as is
+const SERVER_JAR = path.join(MINECRAFT_DIR, "spigot-1.21.10.jar"); // change spigot-1.21.10.jar to whatever your server.jar file name is
 
 // For console logging
 let consoleLogs = "";
@@ -185,3 +185,4 @@ setInterval(() => {
 }, 1000);
 
 app.listen(PORT, () => console.log(`Server dashboard running on http://localhost:${PORT}`));
+
