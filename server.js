@@ -16,11 +16,11 @@ const PORT = 3000;
 // =========================
 // CONFIG
 // =========================
-const SERVER_IP = "bigfatmods-mc.ddns.net";
+const SERVER_IP = "enter server url/ip";
 const SERVER_PORT = 25565;
-const MINECRAFT_DIR = "C:\\Users\\User\\Desktop\\BIGFATMODS Minecraft Server - Copy\\Spigot";
-const PLUGIN_DIR = path.join(MINECRAFT_DIR, "plugins");
-const SERVER_JAR = path.join(MINECRAFT_DIR, "spigot-1.21.10.jar");
+const MINECRAFT_DIR = "server directory on hosting machine";
+const PLUGIN_DIR = path.join(MINECRAFT_DIR, "plugins"); // your plugin directory (leave as is)
+const SERVER_JAR = path.join(MINECRAFT_DIR, "spigot-1.21.10.jar"); //Change to whatever your server.jar is named
 
 let consoleLogs = "";
 let mcProcess = null;
@@ -221,3 +221,4 @@ setInterval(() => {
 app.listen(PORT, () =>
     console.log(`Panel running on http://localhost:${PORT}`)
 );
+
